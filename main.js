@@ -1,14 +1,12 @@
 const { app, BrowserWindow, Tray, Menu, nativeImage, globalShortcut, dialog } = require('electron');
 
-let win, tray;
-
-function createWindow() {
-  win = new BrowserWindow({ show: false });
-  win.loadURL(`file://${__dirname}/index.html`);
-  win.on('closed', () => { win = null; });
-}
+let tray;
 
 function createTrayIcon() {
+  let win = new BrowserWindow({ show: false });
+  win.loadURL(`file://${__dirname}/icon-generator.html`);
+  win.on('closed', () => { win = null; });
+
   win.webContents.executeJavaScript('makeImage()', false, (dataURL) => {
     tray = new Tray(nativeImage.createFromDataURL(dataURL));
 
@@ -32,7 +30,7 @@ function registerShortcuts() {
   globalShortcut.register("Super+;", () => dialog.showMessageBox({ message: "oke", buttons: [] }));
 }
 
-app.on('ready', () => { createWindow(); createTrayIcon(); registerShortcuts(); });
+app.on('ready', () => { createTrayIcon(); registerShortcuts(); });
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 app.on('activate', () => { if (!win) createWindow(); });
 
