@@ -2,6 +2,16 @@ const { app, BrowserWindow, Tray, Menu, nativeImage, globalShortcut, dialog } = 
 
 let tray;
 
+function createWindow() {
+  let win = new BrowserWindow({
+    width: 250, height: 60,
+    frame: false, resizable: false, show: false
+  });
+  win.loadURL(`file://${__dirname}/index.html`);
+  win.once('ready-to-show', () => win.show());
+  win.on('closed', () => { win = null; });
+}
+
 function createTrayIcon() {
   let win = new BrowserWindow({ show: false });
   win.loadURL(`file://${__dirname}/icon-generator.html`);
@@ -14,20 +24,17 @@ function createTrayIcon() {
       { label: 'exit', click() { app.quit() } }
     ]));
 
-    tray.on('click', () => dialog.showMessageBox({ message: "oke", buttons: [] }));
-    // tray.on('double-click', () => timer.start(20));
-  })
+    tray.on('click', createWindow);
+  });
 }
 
-// function updateIcon() {
-//   let json = JSON.stringify({ secondsLeft: timer.secondsLeft, started: timer.started });
-//   win.webContents.executeJavaScript(`makeImage(${json})`, false, (dataURL) => {
-//     tray.setImage(nativeImage.createFromDataURL(dataURL));
-//   });
-// }
-
 function registerShortcuts() {
-  globalShortcut.register("Super+;", () => dialog.showMessageBox({ message: "oke", buttons: [] }));
+  globalShortcut.register("Super+;", createWindow);
+  // globalShortcut.register("Super+p", () => app.quit());
+  // globalShortcut.register("Super+Shift+p", () => app.quit());
+  // globalShortcut.register("Super+P", () => app.quit());
+  // globalShortcut.register("Super+:", () => app.quit());
+  globalShortcut.register("Super+'", () => app.quit());
 }
 
 app.on('ready', () => { createTrayIcon(); registerShortcuts(); });

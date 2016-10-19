@@ -1,37 +1,17 @@
 <script>
 
-  const maxSeconds = 20 * 60;
-
-  function makeImage(timer) {
-    if (!timer) timer = { secondsLeft: maxSeconds, started: false };
-
-    const minutes = Math.floor(timer.secondsLeft / 60);
-    const seconds = timer.secondsLeft % 60;
-
+  function makeImage() {
     const canvas = document.createElement('canvas');
     canvas.width = 16;
     canvas.height = 16;
-
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = timer.started ? "yellow" : "lime";
 
-    // ctx.font = "10px sans-serif";
-    // ctx.fillText(minutes, 0, 8);
-    // ctx.fillText(minutes, 0, 8);
-    // ctx.fillText(seconds, 0, 16);
-    // ctx.fillText(seconds, 0, 16);
+    ctx.fillStyle = "#8f8";
+    ctx.fillRect(0, 0, 16, 16)
 
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = ctx.fillStyle;
-    ctx.beginPath();
-    ctx.arc(8, 8, 7, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(8, 8);
-    ctx.arc(8, 8, 6, 0, Math.PI * 2 * timer.secondsLeft / maxSeconds, false);
-    ctx.lineTo(8, 8);
-    ctx.fill();
+    ctx.fillStyle = "black";
+    ctx.font = "18px serif";
+    for (let i = 0; i < 10; i++) ctx.fillText("Ji", 2, 14);
 
     return canvas.toDataURL();
   }

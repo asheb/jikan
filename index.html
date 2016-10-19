@@ -1,40 +1,16 @@
+
+What are you going to do now?
+<input id="task" autofocus>
+
+
 <script>
+  let inp = document.querySelector("#task");
+  inp.addEventListener('keyup', e => {
+    //> window.resizeTo(250, 250);
 
-  const maxSeconds = 20 * 60;
-
-  function makeImage(timer) {
-    if (!timer) timer = { secondsLeft: maxSeconds, started: false };
-
-    const minutes = Math.floor(timer.secondsLeft / 60);
-    const seconds = timer.secondsLeft % 60;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 16;
-    canvas.height = 16;
-
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = timer.started ? "yellow" : "lime";
-
-    // ctx.font = "10px sans-serif";
-    // ctx.fillText(minutes, 0, 8);
-    // ctx.fillText(minutes, 0, 8);
-    // ctx.fillText(seconds, 0, 16);
-    // ctx.fillText(seconds, 0, 16);
-
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = ctx.fillStyle;
-    ctx.beginPath();
-    ctx.arc(8, 8, 7, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(8, 8);
-    ctx.arc(8, 8, 6, 0, Math.PI * 2 * timer.secondsLeft / maxSeconds, false);
-    ctx.lineTo(8, 8);
-    ctx.fill();
-
-    return canvas.toDataURL();
-  }
+    if (e.keyCode == 13) alert('ok');
+  });
+;
 
 </script>
 
